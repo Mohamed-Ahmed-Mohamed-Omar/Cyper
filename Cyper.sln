@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyper", "Cyper\Cyper.csproj", "{D4C670CE-21E6-4DF6-A270-849C615E409B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4C670CE-21E6-4DF6-A270-849C615E409B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C670CE-21E6-4DF6-A270-849C615E409B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C670CE-21E6-4DF6-A270-849C615E409B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C670CE-21E6-4DF6-A270-849C615E409B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9666D175-0E87-4E25-852D-E67C9A600CA1}
+	EndGlobalSection
+EndGlobal
