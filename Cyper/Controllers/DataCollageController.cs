@@ -1,10 +1,7 @@
 ﻿using Cyper.Models.Collages;
 using Cyper.Models.Identity;
-using Cyper.Models.Problems;
 using Cyper.Services.Interface;
-using Cyper.Services.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -44,16 +41,10 @@ namespace Cyper.Controllers
         }
 
 
-        [HttpPut("UpdateDataCollage")]
-        public async Task<IActionResult> UpdateDataCollage([FromBody] UpdateDataCollages collage)
+        [HttpPut("UpdateDataCollage/{Id}")]
+        public async Task<IActionResult> UpdateDataCollage(int Id, [FromBody] UpdateDataCollages collage)
         {
-            var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var user = await _userManager.FindByNameAsync(username);
-
-            var UserName = user.UserName;
-
-            collage.UserName = UserName; // Ensure UserName matches update target
+            collage.Id = Id; // Ensure UserName matches update target
 
             try
             {
@@ -68,14 +59,10 @@ namespace Cyper.Controllers
         }
 
         
-        [HttpDelete("DeleteDataCollage")]
-        public async Task<IActionResult> DeleteDataCollage()
+        [HttpDelete("DeleteDataCollage/{Id}")]
+        public async Task<IActionResult> DeleteDataCollage(int Id)
         {
-            var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var user = await _userManager.FindByNameAsync(username);
-
-            var data = await _dataCollageRepository.DeleteAsync(user.UserName);
+            var data = await _dataCollageRepository.DeleteAsync(Id);
 
             return Ok(data);
         }

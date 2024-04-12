@@ -78,16 +78,11 @@ namespace Cyper.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SolveId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SolveId");
 
                     b.ToTable("problems");
                 });
@@ -219,21 +214,21 @@ namespace Cyper.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "57d52f99-1cb3-46fc-9a84-a56e8914b80f",
+                            Id = "0cdfa469-340c-4d2e-b0bc-7ca738b51711",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "5ffd4c99-39d0-49e1-9f20-515db55e88f6",
+                            Id = "5eb89da3-ab9f-476a-9b4e-fda3103018f0",
                             ConcurrencyStamp = "2",
                             Name = "User",
                             NormalizedName = "User"
                         },
                         new
                         {
-                            Id = "64d577c3-9af1-43ac-ba17-03857bf17643",
+                            Id = "32d12a35-1131-459c-aedc-da6c86b8b438",
                             ConcurrencyStamp = "3",
                             Name = "Engineer",
                             NormalizedName = "Engineer"
@@ -344,17 +339,6 @@ namespace Cyper.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", "security");
-                });
-
-            modelBuilder.Entity("Cyper.Data.Entities.Problem", b =>
-                {
-                    b.HasOne("Cyper.Data.Entities.Solve", "Solve")
-                        .WithMany()
-                        .HasForeignKey("SolveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Solve");
                 });
 
             modelBuilder.Entity("Cyper.Data.Entities.Solve", b =>

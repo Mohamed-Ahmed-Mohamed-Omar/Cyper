@@ -2,7 +2,7 @@
 {
     public class UpdateDataCollages
     {
-        public string UserName { get; set; }
+        public int Id { get; set; }
         public string? Points_not_working { get; set; }
         public int Points_work { get; set; }
         public int Nom_of_points { get; set; }

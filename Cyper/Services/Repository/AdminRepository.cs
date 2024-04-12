@@ -48,18 +48,18 @@ namespace Cyper.Services.Repository
             return RG;
         }
 
-        public async Task<IQueryable<string>> GetAllRolesAsync()
+        public async Task<IEnumerable<object>> GetAllRolesAsync()
         {
-            var roles = await _roleManager.Roles.Select(role => new
+            var data = await _roleManager.Roles.Select(role => new
             {
-                Id = role.Id,
-                Name = role.Name
+                id = role.Id,
+                name = role.Name
             }).ToListAsync();
 
-            return (IQueryable<string>)roles;
+            return data;
         }
 
-        public async Task<IEnumerable<string>> GetAllUserByRoleNameAsync(string RoleName)
+        public async Task<IEnumerable<object>> GetAllUserByRoleNameAsync(string RoleName)
         {
             var userRole = await _userManager.GetUsersInRoleAsync(RoleName);
             if (userRole == null)
@@ -74,11 +74,11 @@ namespace Cyper.Services.Repository
 
             var users = userRole.Select(user => new
             {
-                Id = user.Id,
-                Username = user.UserName
+                id = user.Id,
+                username = user.UserName
             }).ToList();
 
-            return (IEnumerable<string>)users;
+            return users;
         }
 
         public async Task<ResponseGeneral> RemoveUserFromRoleAsync(string UserNameOrID, string RoleName)

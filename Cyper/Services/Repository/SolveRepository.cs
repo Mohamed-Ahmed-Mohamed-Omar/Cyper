@@ -71,6 +71,7 @@ namespace Cyper.Services.Repository
             var data = await _context.solves.Where(d => d.ProblemId == id)
                 .Select(d => new GetSolveDetails
                 {
+                    ProblemId = d.ProblemId,
                     Description = d.Description,
                     UserName = d.UserName
                 }).FirstOrDefaultAsync();

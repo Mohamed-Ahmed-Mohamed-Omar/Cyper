@@ -129,13 +129,6 @@ namespace Cyper.Services.Repository
                 return (authModel);
             }
 
-            if (!user.EmailConfirmed)
-            {
-                var result = await _userManager.DeleteAsync(user);
-                authModel.Message = "Email is not confirmed! And User deleted successfully!";
-                return (authModel);
-            }
-
             var jwtSecurityToken = await CreateJwtToken(user);
             var rolesList = await _userManager.GetRolesAsync(user);
 

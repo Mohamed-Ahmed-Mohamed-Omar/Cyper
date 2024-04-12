@@ -8,10 +8,10 @@ namespace Cyper.Services.Interface
 
         Task<ResponseGeneral> RemoveUserFromRoleAsync(string UserNameOrID, string RoleName);
 
-        Task<IEnumerable<string>> GetAllUserByRoleNameAsync(string RoleName);
+        Task<IEnumerable<object>> GetAllUserByRoleNameAsync(string RoleName);
 
         Task<ResponseGeneral> RemoveUserAsync(string UserNameOrID);
 
-        Task<IQueryable<string>> GetAllRolesAsync();
+        Task<IEnumerable<object>> GetAllRolesAsync();
     }
 }

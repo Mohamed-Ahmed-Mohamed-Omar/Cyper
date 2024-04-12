@@ -65,9 +65,9 @@ namespace Cyper.Controllers
 
 
         [HttpGet("GetAllRoles")]
-        public IActionResult GetAllRoles()
+        public async Task<IActionResult> GetAllRoles()
         {
-            var roles = _adminRepository.GetAllRolesAsync();
+            var roles = await _adminRepository.GetAllRolesAsync();
 
             return Ok(roles);
         }

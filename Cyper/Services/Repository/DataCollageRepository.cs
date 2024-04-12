@@ -56,13 +56,13 @@ namespace Cyper.Services.Repository
             return RG;
         }
 
-        public async Task<ResponseGeneral> DeleteAsync(string username)
+        public async Task<ResponseGeneral> DeleteAsync(int id)
         {
-            var delData = await _context.solves.FindAsync(username);
+            var delData = await _context.data_Collages.FindAsync(id);
 
             if (delData != null)
             {
-                _context.solves.Remove(delData);
+                _context.data_Collages.Remove(delData);
 
                 await _context.SaveChangesAsync();
 
@@ -72,11 +72,12 @@ namespace Cyper.Services.Repository
             return new ResponseGeneral { Message = "Not Found" };
         }
 
-        public async Task<GetDataCollageDetails> GetByIdAsync(string UserName)
+        public async Task<IEnumerable<GetDataCollageDetails>> GetByIdAsync(string UserName)
         {
             var data = await _context.data_Collages.Where(d => d.UserName == UserName)
                 .Select(m=> new GetDataCollageDetails
                 {
+                    Id = m.Id,
                     Departement = m.Departement,
                     Nom_of_points = m.Nom_of_points,
                     Points_not_working = m.Points_not_working,
@@ -85,9 +86,9 @@ namespace Cyper.Services.Repository
                     Room_nom = m.Room_nom,
                     Round = m.Round,
                     Switch = m.Switch
-                }).FirstOrDefaultAsync();
+                }).ToListAsync();
 
-            return data ?? throw new Exception("Not DataCollage This time!");
+            return data;
         }
 
         public async Task<ResponseGeneral> UpdateAsync(UpdateDataCollages entity)
@@ -96,7 +97,7 @@ namespace Cyper.Services.Repository
 
             try
             {
-                var existingOffer = await _context.data_Collages.FindAsync(entity.UserName); // Handle cases where UserName is not set
+                var existingOffer = await _context.data_Collages.FindAsync(entity.Id); // Handle cases where UserName is not set
 
                 if (existingOffer == null)
                 {

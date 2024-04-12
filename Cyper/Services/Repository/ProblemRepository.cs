@@ -79,6 +79,7 @@ namespace Cyper.Services.Repository
             var data = await _context.problems.Where(d => d.UserName == UserName)
                 .Select(m => new GetListProblemsForCollage
                 {
+                    Id = m.Id,
                     Description_Problems = m.Description
                 }).ToListAsync();
 

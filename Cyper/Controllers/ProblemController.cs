@@ -76,8 +76,8 @@ namespace Cyper.Controllers
         }
 
         [Authorize(Roles = clsRoles.roleUser)]
-        [HttpGet("GetAllProblemsToIser")]
-        public async Task<ActionResult<IEnumerable<GetAllProblems>>> GetAllProblemsToUser()
+        [HttpGet("GetAllProblemsToUser")]
+        public async Task<ActionResult<IEnumerable<GetListProblemsForCollage>>> GetAllProblemsToUser()
         {
             var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

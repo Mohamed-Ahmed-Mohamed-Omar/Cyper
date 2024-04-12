@@ -38,6 +38,20 @@ namespace Cyper.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "problems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_problems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 schema: "security",
                 columns: table => new
@@ -78,6 +92,27 @@ namespace Cyper.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "solves",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProblemId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_solves", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_solves_problems_ProblemId",
+                        column: x => x.ProblemId,
+                        principalTable: "problems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,57 +257,16 @@ namespace Cyper.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "problems",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SolveId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_problems", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "solves",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProblemId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_solves", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_solves_problems_ProblemId",
-                        column: x => x.ProblemId,
-                        principalTable: "problems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
             migrationBuilder.InsertData(
                 schema: "security",
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "57d52f99-1cb3-46fc-9a84-a56e8914b80f", "1", "Admin", "Admin" },
-                    { "5ffd4c99-39d0-49e1-9f20-515db55e88f6", "2", "User", "User" },
-                    { "64d577c3-9af1-43ac-ba17-03857bf17643", "3", "Engineer", "Engineer" }
+                    { "0cdfa469-340c-4d2e-b0bc-7ca738b51711", "1", "Admin", "Admin" },
+                    { "32d12a35-1131-459c-aedc-da6c86b8b438", "3", "Engineer", "Engineer" },
+                    { "5eb89da3-ab9f-476a-9b4e-fda3103018f0", "2", "User", "User" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_problems_SolveId",
-                table: "problems",
-                column: "SolveId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -324,23 +318,11 @@ namespace Cyper.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_problems_solves_SolveId",
-                table: "problems",
-                column: "SolveId",
-                principalTable: "solves",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_problems_solves_SolveId",
-                table: "problems");
-
             migrationBuilder.DropTable(
                 name: "data_Collages");
 
@@ -351,6 +333,9 @@ namespace Cyper.Migrations
             migrationBuilder.DropTable(
                 name: "RoleClaims",
                 schema: "security");
+
+            migrationBuilder.DropTable(
+                name: "solves");
 
             migrationBuilder.DropTable(
                 name: "UserClaims",
@@ -369,18 +354,15 @@ namespace Cyper.Migrations
                 schema: "security");
 
             migrationBuilder.DropTable(
+                name: "problems");
+
+            migrationBuilder.DropTable(
                 name: "Roles",
                 schema: "security");
 
             migrationBuilder.DropTable(
                 name: "Users",
                 schema: "security");
-
-            migrationBuilder.DropTable(
-                name: "solves");
-
-            migrationBuilder.DropTable(
-                name: "problems");
         }
     }
 }
