@@ -1,6 +1,8 @@
 ﻿using Cyper.Models.Identity;
+using Cyper.Models.Problems;
 using Cyper.Models.Solves;
 using Cyper.Services.Interface;
+using Cyper.Services.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +24,16 @@ namespace Cyper.Controllers
         }
 
         [Authorize(Roles = clsRoles.roleUser)]
-        [HttpGet("GetSolveDetails/{ProblemId}")]
-        public async Task<IActionResult> GetSolveDetails(int ProblemId)
+        [HttpGet("GetSolveDetails")]
+        public async Task<IActionResult> GetSolveDetails()
         {
             try
             {
-                var data = await _solveRepository.GetByIdAsync(ProblemId);
+                var username = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var user = await _userManager.FindByNameAsync(username);
+
+                var data = await _solveRepository.GetByIdAsync(user.UserName);
 
                 return Ok(data);
             }
@@ -56,10 +62,10 @@ namespace Cyper.Controllers
         }
 
         [Authorize(Roles = clsRoles.roleEngineer)]
-        [HttpPut("UpdateSolver/{Id}")]
-        public async Task<IActionResult> UpdateSolve(int id, [FromBody] UpdateSolve solve)
+        [HttpPut("UpdateSolve/{Id}")]
+        public async Task<IActionResult> UpdateSolve(int Id, [FromBody] UpdateSolve solve)
         {
-            solve.Id = id; // Ensure Id matches update target
+            solve.Id = Id; // Ensure Id matches update target
 
             try
             {
@@ -75,16 +81,25 @@ namespace Cyper.Controllers
 
         [Authorize(Roles = clsRoles.roleEngineer)]
         [HttpDelete("DeleteSolve/{Id}")]
-        public async Task<IActionResult> DeleteSolve(int id)
+        public async Task<IActionResult> DeleteSolve(int Id)
         {
             if (ModelState.IsValid)
             {
-                var data = await _solveRepository.DeleteAsync(id);
+                var data = await _solveRepository.DeleteAsync(Id);
 
                 return Ok(data);
             }
 
             return BadRequest(ModelState);
+        }
+
+        [Authorize(Roles = clsRoles.roleEngineer)]
+        [HttpGet("GetAllSolves")]
+        public async Task<ActionResult<IEnumerable<GetAllSolves>>> GetAllProblems()
+        {
+            var data = await _solveRepository.GetAllSolves();
+
+            return Ok(data);
         }
     }
 }

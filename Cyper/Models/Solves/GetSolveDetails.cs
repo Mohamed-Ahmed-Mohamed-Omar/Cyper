@@ -4,6 +4,8 @@
     {
         public int ProblemId { get; set; }
         public string UserName { get; set; }
-        public string Description { get; set; }
+        public string CollageName { get; set; }
+        public string Description_Solve { get; set; }
+        public string Description_Problem { get; set; }
     }
 }

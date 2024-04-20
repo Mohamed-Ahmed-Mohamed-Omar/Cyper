@@ -12,6 +12,7 @@ namespace Cyper.Helpers
         { 
             CreateMap<Solve, CreateSolve>().ReverseMap();
             CreateMap<Solve, UpdateSolve>().ReverseMap();
+            CreateMap<Solve, GetAllSolves>().ReverseMap();
             CreateMap<Solve, GetSolveDetails>().ReverseMap();
 
             CreateMap<Problem, CreateProblem>().ReverseMap();

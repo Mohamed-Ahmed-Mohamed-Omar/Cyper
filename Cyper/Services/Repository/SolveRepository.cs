@@ -2,6 +2,7 @@
 using Cyper.Data;
 using Cyper.Data.Entities;
 using Cyper.Models;
+using Cyper.Models.Problems;
 using Cyper.Models.Solves;
 using Cyper.Services.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -66,14 +67,29 @@ namespace Cyper.Services.Repository
             return new ResponseGeneral { Message = "Not Found" };
         }
 
-        public async Task<GetSolveDetails> GetByIdAsync(int id)
+        public async Task<IEnumerable<GetAllSolves>> GetAllSolves()
         {
-            var data = await _context.solves.Where(d => d.ProblemId == id)
+            var Solves = await _context.solves.Select(d => new GetAllSolves
+            {
+                Id = d.Id,
+                ProblemId = d.ProblemId,
+                Description = d.Description,
+                UserName = d.UserName
+            }).ToListAsync();
+
+            return Solves;
+        }
+
+        public async Task<GetSolveDetails> GetByIdAsync(string Username)
+        {
+            var data = await _context.solves.Where(d => d.problem.UserName == Username)
                 .Select(d => new GetSolveDetails
                 {
+                    CollageName = Username,
                     ProblemId = d.ProblemId,
-                    Description = d.Description,
-                    UserName = d.UserName
+                    Description_Problem = d.problem.Description,
+                    UserName = d.UserName,
+                    Description_Solve = d.Description
                 }).FirstOrDefaultAsync();
 
             return data ?? throw new Exception("Not solve This time!");
